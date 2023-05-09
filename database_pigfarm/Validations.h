@@ -70,11 +70,25 @@ void info() {
 }
 
 void loopThroughCells(int indAmount, struct Cell* cell, char* dummy, int* cellCount, int* pigCount) {
-    for (int i = 1; i <= indAmount; i++) {
-        if (getCell(cell, i, dummy)) {
-            (*cellCount)++;
-            (*pigCount) += (*cell).pigCount;
-            printf("Cell #%d has %d pigs\n", i, (*cell).pigCount);
-        }
-    }
+	for (int i = 1; i <= indAmount; i++) {
+		struct Pig pig;
+		if (getCell(cell, i, dummy)) {
+			(*cellCount)++;
+			(*pigCount) += (*cell).pigCount;
+			printf("Cell #%d has %d pigs\n", i, (*cell).pigCount);
+			if ((*cell).pigCount != 0) {
+				for (int id = 0, n = (*cell).pigCount; id < n; id++) {
+					char error[51];
+					if (getPig(*cell, &pig, id, error))
+						printf("Pig #%d: %c - %s\n", id, pig.gender, pig.birth_date);
+					else {
+						n++;
+					}
+
+				}
+				printf("\n");
+			}
+		}
+	}
 }
+
